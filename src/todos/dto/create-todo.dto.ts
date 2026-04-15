@@ -11,11 +11,11 @@ import { TodoStatus } from '../enums/todo-status.enum';
 export class CreateTodoDto {
   @IsString()
   @MinLength(1, { message: 'Title không được để trống' })
-  title: string;
+  title!: string;
 
   @IsOptional()
   @IsString()
-  desciption?: string;
+  description?: string;
 
   @IsOptional()
   @IsEnum(TodoStatus, {

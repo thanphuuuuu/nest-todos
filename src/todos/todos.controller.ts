@@ -14,29 +14,25 @@ import {
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { QueryParamsDto } from './dto/query-params.dto';
+import { TodosService } from './todo.service';
 
 @Controller('todos')
 export class TodosController {
+  constructor(private todosService: TodosService) {}
+
   @Get()
   findAll(@Query() queryParamsDto: QueryParamsDto) {
-    return `lấy tất cả todos: ${queryParamsDto.priority}, ${queryParamsDto.limit}, ${queryParamsDto.page}`;
+    return this.todosService.findAll(queryParamsDto);
   }
 
   @Get(':id')
   getTodoById(@Param('id', ParseIntPipe) id: number) {
-    return id;
+    return this.todosService.findByID(id);
   }
 
   @Post()
-  create(
-    @Body() createTodoDto: CreateTodoDto,
-    @Headers('authorization') auth: string,
-  ) {
-    if (auth) {
-      return 'đã tạo todo: ' + JSON.stringify(createTodoDto);
-    }
-
-    return 'bạn chưa đăng nhập';
+  create(@Body() createTodoDto: CreateTodoDto) {
+    return this.todosService.create(createTodoDto);
   }
 
   @Patch(':id')
@@ -44,12 +40,12 @@ export class TodosController {
     @Param(':id', ParseIntPipe) id: number,
     @Body() updateTodoDto: UpdateTodoDto,
   ) {
-    return `update todo ${id} với body ${JSON.stringify(updateTodoDto)}`;
+    return this.todosService.update(id, updateTodoDto);
   }
 
   @HttpCode(204)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return `delete todo` + id;
+    return this.todosService.delete(id);
   }
 }

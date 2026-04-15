@@ -1,0 +1,102 @@
+[
+  {
+    "id": 3,
+    "title": "Thiết kế Database",
+    "description": "Vẽ sơ đồ ERD cho dự án quản lý chi tiêu cá nhân",
+    "status": "OPEN",
+    "priority": "HIGH",
+    "categoryId": 1,
+    "createdAt": "2025-01-15T08:00:00.000Z",
+    "updatedAt": "2025-01-15T08:00:00.000Z"
+  },
+  {
+    "id": 4,
+    "title": "Mua thực phẩm tuần mới",
+    "description": "Mua ức gà, rau xanh, trứng và sữa hạt tại siêu thị",
+    "status": "INPROGRESS",
+    "priority": "MEDIUM",
+    "categoryId": 2,
+    "createdAt": "2025-01-16T17:30:00.000Z",
+    "updatedAt": "2025-01-17T09:15:00.000Z"
+  },
+  {
+    "id": 5,
+    "title": "Luyện tập Tiếng Anh",
+    "description": "Hoàn thành 2 bài nghe trên TED-ed và viết summary",
+    "status": "OPEN",
+    "priority": "MEDIUM",
+    "categoryId": 3,
+    "createdAt": "2025-01-18T20:00:00.000Z",
+    "updatedAt": "2025-01-18T20:00:00.000Z"
+  },
+  {
+    "id": 6,
+    "title": "Fix bug Authentication",
+    "description": "Sửa lỗi JWT không hết hạn đúng thời gian quy định",
+    "status": "INPROGRESS",
+    "priority": "HIGH",
+    "categoryId": 1,
+    "createdAt": "2025-01-19T10:00:00.000Z",
+    "updatedAt": "2025-01-19T14:20:00.000Z"
+  },
+  {
+    "id": 7,
+    "title": "Bảo trì xe máy",
+    "description": "Thay nhớt và kiểm tra phanh xe tại tiệm",
+    "status": "DONE",
+    "priority": "LOW",
+    "categoryId": 2,
+    "createdAt": "2025-01-20T08:00:00.000Z",
+    "updatedAt": "2025-01-20T11:00:00.000Z"
+  },
+  {
+    "id": 8,
+    "title": "Đọc sách 'Clean Code'",
+    "description": "Đọc chương 3 và chương 4 về cách đặt tên biến",
+    "status": "OPEN",
+    "priority": "MEDIUM",
+    "categoryId": 1,
+    "createdAt": "2025-01-21T21:00:00.000Z",
+    "updatedAt": "2025-01-21T21:00:00.000Z"
+  },
+  {
+    "id": 9,
+    "title": "Tập Gym",
+    "description": "Thực hiện các bài tập nhóm cơ ngực và vai",
+    "status": "DONE",
+    "priority": "MEDIUM",
+    "categoryId": 4,
+    "createdAt": "2025-01-22T16:00:00.000Z",
+    "updatedAt": "2025-01-22T18:00:00.000Z"
+  },
+  {
+    "id": 10,
+    "title": "Review Code cho đồng nghiệp",
+    "description": "Xem lại Pull Request của dự án CRM",
+    "status": "INPROGRESS",
+    "priority": "HIGH",
+    "categoryId": 1,
+    "createdAt": "2025-01-23T09:30:00.000Z",
+    "updatedAt": "2025-01-23T10:45:00.000Z"
+  },
+  {
+    "id": 11,
+    "title": "Thanh toán tiền điện",
+    "description": "Thanh toán hóa đơn tháng 1 qua ứng dụng ngân hàng",
+    "status": "OPEN",
+    "priority": "HIGH",
+    "categoryId": 2,
+    "createdAt": "2025-01-24T07:00:00.000Z",
+    "updatedAt": "2025-01-24T07:00:00.000Z"
+  },
+  {
+    "id": 12,
+    "title": "Nghiên cứu Docker",
+    "description": "Học cách viết Dockerfile cho một ứng dụng Node.js đơn giản",
+    "status": "OPEN",
+    "priority": "MEDIUM",
+    "categoryId": 1,
+    "createdAt": "2025-01-25T14:00:00.000Z",
+    "updatedAt": "2025-01-25T14:00:00.000Z"
+  }
+]
