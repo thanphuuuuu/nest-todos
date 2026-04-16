@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Todo } from 'src/entities/todo.entity';
+import { Todo } from 'src/todos/entities/todo.entity';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { TodoStatus } from './enums/todo-status.enum';
@@ -46,6 +46,7 @@ export class TodosRepository {
       status: createTodoDto.status ?? TodoStatus.OPEN,
       priority: createTodoDto.priority ?? TodoPriority.MEDIUM,
       categoryId: createTodoDto.categoryId, // không bắt buộc giá trị mặc định vì trường này không bắt buộc phải có
+      userId: createTodoDto.userId, // trường bắt buộc có
       createdAt: new Date(),
       updatedAt: new Date(),
     };

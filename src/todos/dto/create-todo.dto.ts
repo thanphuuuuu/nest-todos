@@ -32,4 +32,7 @@ export class CreateTodoDto {
   @IsOptional()
   @IsInt({ message: 'categoryId phải là số nguyên' })
   categoryId?: number;
+
+  @IsInt({ message: 'userId phải là số nguyên' })
+  userId: number;
 }

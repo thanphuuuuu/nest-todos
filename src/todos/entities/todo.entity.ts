@@ -2,12 +2,13 @@ import { TodoPriority } from 'src/todos/enums/todo-priority.enum';
 import { TodoStatus } from 'src/todos/enums/todo-status.enum';
 
 export class Todo {
-  id!: number;
-  title!: string;
-  description!: string;
-  status!: TodoStatus;
-  priority!: TodoPriority;
+  id: number;
+  title: string;
+  description: string;
+  status: TodoStatus;
+  priority: TodoPriority;
+  userId: number;
   categoryId?: number; // Giữ nguyên ? nếu field này có thể null
-  createdAt!: Date;
-  updatedAt!: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
