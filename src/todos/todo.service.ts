@@ -3,9 +3,14 @@ import { CreateTodoDto } from './dto/create-todo.dto';
 import { QueryParamsDto } from './dto/query-params.dto';
 import { TodosRepository } from './todos.repository';
 import { UpdateTodoDto } from './dto/update-todo.dto';
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CategoriesService } from 'src/categories/categories.service';
 import { UsersService } from 'src/users/users.service';
+import { TodoNotFoundException } from './exceptions/todo-not-found.exception';
 
 @Injectable()
 export class TodosService {
@@ -33,7 +38,7 @@ export class TodosService {
     const todo = this.todosRepository.findByID(id);
 
     if (!todo) {
-      throw new Error(`Không tìm thấy todo với id: ${id}`);
+      throw new TodoNotFoundException(id);
     }
 
     return todo;
@@ -43,7 +48,11 @@ export class TodosService {
     const user = this.usersService.findById(createTodoDto.userId);
 
     if (!user) {
-      throw new Error(`Không tìm thấy user với id: ${createTodoDto.userId}`);
+      throw new NotFoundException({
+        message: `Không tìm thấy user với id: ${createTodoDto.userId}`,
+        errorCode: 'USER_NOT_FOUND',
+        filed: 'id',
+      });
     }
 
     if (createTodoDto.categoryId) {
@@ -52,10 +61,23 @@ export class TodosService {
       );
 
       if (!category) {
-        throw new Error(
-          `Không tìm thấy category với id: ${createTodoDto.categoryId}`,
-        );
+        throw new NotFoundException({
+          message: `Không tìm thấy category với id: ${createTodoDto.categoryId}`,
+          errorCode: 'CATEGORY_NOT_FOUND',
+          filed: 'id',
+        });
       }
+    }
+
+    const existingTodo = this.todosRepository.findByTitle(createTodoDto.title);
+
+    if (existingTodo) {
+      throw new BadRequestException({
+        message: `Todo với title ${createTodoDto.title} đã tồn tại`,
+        errorCode: 'TODO_TITLE_DUPLICATE',
+        filed: 'title',
+        statusCode: 400,
+      });
     }
 
     return this.todosRepository.create(createTodoDto);
@@ -65,7 +87,7 @@ export class TodosService {
     const updatedTodo = this.todosRepository.update(id, updateTodoDto);
 
     if (!updatedTodo) {
-      throw new Error(`Không tìm thấy todo với id: ${id}`);
+      throw new TodoNotFoundException(id); // TodoNotFoundException đc gọi là Custom Exception
     }
 
     return updatedTodo;
@@ -75,7 +97,7 @@ export class TodosService {
     const deleted = this.todosRepository.delete(id);
 
     if (!deleted) {
-      throw new Error(`Không tìm thấy todo với id: ${id}`);
+      throw new TodoNotFoundException(id);
     }
   }
 }
