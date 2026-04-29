@@ -43,24 +43,24 @@ export class TodosRepository {
     return todos.find((todo) => todo.title === title);
   }
 
-  create(createTodoDto: CreateTodoDto): Todo {
-    const todos = this.readFromFile();
-    const newTodo: Todo = {
-      id: this.getNextID(todos),
-      title: createTodoDto.title,
-      description: createTodoDto.description ?? '',
-      status: createTodoDto.status ?? TodoStatus.OPEN,
-      priority: createTodoDto.priority ?? TodoPriority.MEDIUM,
-      categoryId: createTodoDto.categoryId, // không bắt buộc giá trị mặc định vì trường này không bắt buộc phải có
-      userId: createTodoDto.userId, // trường bắt buộc có
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+  // create(createTodoDto: CreateTodoDto): Todo {
+  //   const todos = this.readFromFile();
+  //   const newTodo: Todo = {
+  //     id: this.getNextID(todos),
+  //     title: createTodoDto.title,
+  //     description: createTodoDto.description ?? '',
+  //     status: createTodoDto.status ?? TodoStatus.OPEN,
+  //     priority: createTodoDto.priority ?? TodoPriority.MEDIUM,
+  //     categoryId: createTodoDto.categoryId, // không bắt buộc giá trị mặc định vì trường này không bắt buộc phải có
+  //     userId: createTodoDto.userId, // trường bắt buộc có
+  //     createdAt: new Date(),
+  //     updatedAt: new Date(),
+  //   };
 
-    todos.push(newTodo);
-    this.writeToFile(todos);
-    return newTodo;
-  }
+  //   todos.push(newTodo);
+  //   this.writeToFile(todos);
+  //   return newTodo;
+  // }
 
   update(id: number, updateTodoDto: UpdateTodoDto) {
     const todos = this.readFromFile();

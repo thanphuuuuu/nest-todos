@@ -4,8 +4,8 @@ import { User } from './entities/user.entity';
 @Injectable()
 export class UsersService {
   private users: User[] = [
-    { id: 1, name: 'An' },
-    { id: 2, name: 'Bình' },
+    { id: 1, name: 'An', todos: [] },
+    { id: 2, name: 'Bình', todos: [] },
   ];
 
   findById(id: number) {

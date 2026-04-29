@@ -1,7 +1,6 @@
 import { Todo } from 'src/todos/entities/todo.entity';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { QueryParamsDto } from './dto/query-params.dto';
-import { TodosRepository } from './todos.repository';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import {
   BadRequestException,
@@ -11,31 +10,38 @@ import {
 import { CategoriesService } from 'src/categories/categories.service';
 import { UsersService } from 'src/users/users.service';
 import { TodoNotFoundException } from './exceptions/todo-not-found.exception';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TodosService {
   constructor(
-    private todosRepository: TodosRepository,
+    @InjectRepository(Todo)
+    private readonly todosRepository: Repository<Todo>,
     private readonly usersService: UsersService,
     private readonly categoriesService: CategoriesService,
   ) {}
 
-  findAll(queryParamsDto: QueryParamsDto): Todo[] {
-    let todos = this.todosRepository.findAll();
-
-    if (queryParamsDto.priority) {
-      todos = todos.filter((todo) => todo.priority === queryParamsDto.priority);
-    }
-
+  async findAll(queryParamsDto: QueryParamsDto): Promise<Todo[]> {
     const page = queryParamsDto.page ?? 1;
     const limit = queryParamsDto.limit ?? 10;
-
     const start = (page - 1) * limit;
-    return todos.slice(start, start + limit);
+
+    const where = queryParamsDto.priority
+      ? { priority: queryParamsDto.priority }
+      : {};
+
+    const todos = await this.todosRepository.find({
+      where,
+      take: limit,
+      skip: start,
+    });
+
+    return todos;
   }
 
-  findByID(id: number) {
-    const todo = this.todosRepository.findByID(id);
+  async findByID(id: number) {
+    const todo = await this.todosRepository.findOne({ where: { id } });
 
     if (!todo) {
       throw new TodoNotFoundException(id);
@@ -44,7 +50,7 @@ export class TodosService {
     return todo;
   }
 
-  create(createTodoDto: CreateTodoDto): Todo {
+  async create(createTodoDto: CreateTodoDto): Promise<Todo> {
     const user = this.usersService.findById(createTodoDto.userId);
 
     if (!user) {
@@ -69,7 +75,9 @@ export class TodosService {
       }
     }
 
-    const existingTodo = this.todosRepository.findByTitle(createTodoDto.title);
+    const existingTodo = await this.todosRepository.findOne({
+      where: { title: createTodoDto.title },
+    });
 
     if (existingTodo) {
       throw new BadRequestException({
@@ -80,23 +88,25 @@ export class TodosService {
       });
     }
 
-    return this.todosRepository.create(createTodoDto);
+    return this.todosRepository.save(createTodoDto);
   }
 
-  update(id: number, updateTodoDto: UpdateTodoDto) {
-    const updatedTodo = this.todosRepository.update(id, updateTodoDto);
+  async update(id: number, updateTodoDto: UpdateTodoDto) {
+    const todo = await this.todosRepository.findOne({ where: { id } });
 
-    if (!updatedTodo) {
+    if (!todo) {
       throw new TodoNotFoundException(id); // TodoNotFoundException đc gọi là Custom Exception
     }
 
-    return updatedTodo;
+    Object.assign(todo, updateTodoDto);
+
+    return this.todosRepository.save(todo);
   }
 
-  delete(id: number) {
-    const deleted = this.todosRepository.delete(id);
+  async delete(id: number) {
+    const deleted = await this.todosRepository.delete(id);
 
-    if (!deleted) {
+    if (!deleted.affected) {
       throw new TodoNotFoundException(id);
     }
   }
